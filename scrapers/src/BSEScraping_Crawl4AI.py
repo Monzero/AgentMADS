@@ -4,8 +4,8 @@ from crawl4ai import AsyncWebCrawler
 
 async def bse_scrape_data(companyName):
     # Read URLs and headers from generated_urls.xlsx
-    input_file = f"scrapers/data/scraped/{companyName}/generated_urls.xlsx"
-    output_file = f"scrapers/data/scraped/{companyName}/scraped_results.xlsx"
+    input_file = f"AgentMADS/scrapers/data/scraped/{companyName}/generated_urls.xlsx"
+    output_file = f"AgentMADS/scrapers/data/scraped/{companyName}/scraped_results.xlsx"
 
     # Load the Excel file into a DataFrame
     try:

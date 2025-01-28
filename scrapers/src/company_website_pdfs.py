@@ -7,7 +7,7 @@ import pandas as pd
 
 def scrape_company_website(companyName):
     # Step 1: Define the URL of the page
-    company_website_df = pd.read_excel("scrapers/data/links/CompanyWebsiteLInks.xlsx")
+    company_website_df = pd.read_excel("AgentMADS/scrapers/data/links/CompanyWebsiteLInks.xlsx")
 
     # Iterate over each company in the company data
     company_found = False
@@ -23,7 +23,7 @@ def scrape_company_website(companyName):
         raise ValueError(f"Company '{companyName}' not found in the dataset.")
 
     # Create folders for PDFs and extracted text
-    pdf_folder = f"scrapers/data/scraped/{companyName}/pdfs"
+    pdf_folder = f"AgentMADS/scrapers/data/scraped/{companyName}/pdfs"
     os.makedirs(pdf_folder, exist_ok=True)
 
     # Step 3: Function to scrape PDFs from a given URL
@@ -75,7 +75,7 @@ def scrape_company_website(companyName):
             print(f"Error processing {pdf_url}: {e}")
     
     # Step 7: Save combined text into a single document
-    combined_file = f"scrapers/data/scraped/{companyName}/combined_policies.txt"
+    combined_file = f"AgentMADS/scrapers/data/scraped/{companyName}/combined_policies.txt"
     with open(combined_file, "w", encoding="utf-8") as file:
         file.write(combined_text)
     print(f"All text combined into: {combined_file}")

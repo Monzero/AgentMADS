@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 # Prepare a list to store the generated URLs
 generated_urls = []
@@ -10,7 +11,7 @@ def get_company_details(companyName):
     Fetch company details for a given company name from the companies.xlsx file.
     """
     # Load the Excel file containing company data
-    company_df = pd.read_excel("scrapers/data/links/Companies.xlsx")
+    company_df = pd.read_excel("AgentMADS/scrapers/data/links/Companies.xlsx")
 
     # Iterate over each company in the company data
     for _, company_row in company_df.iterrows():
@@ -35,7 +36,7 @@ def get_generated_urls(companyDetails):
     Generate URLs based on company details and templates from BSELinks.xlsx.
     """
     # Load the Excel file containing URL templates
-    links_df = pd.read_excel("scrapers/data/links/BSELinks.xlsx")
+    links_df = pd.read_excel("AgentMADS/scrapers/data/links/BSELinks.xlsx")
     
     # Iterate over each link template
     for _, link_row in links_df.iterrows():
@@ -60,7 +61,10 @@ def get_generated_urls(companyDetails):
 
 # Function to save generated URLs to an Excel file
 def save_generated_urls(companyName):
-    output_file = f"scrapers/data/scraped/{companyName}/generated_urls.xlsx"
+    # check for company folder
+    create_company_folder(companyName)
+
+    output_file = f"AgentMADS/scrapers/data/scraped/{companyName}/generated_urls.xlsx"
     """
     Save all generated URLs to a new Excel file.
     """
@@ -68,4 +72,16 @@ def save_generated_urls(companyName):
     output_df = pd.DataFrame(generated_urls)
     output_df.to_excel(output_file, index=False)
     print("URLs generated and saved to 'generated_urls.xlsx'")
+
+
+def create_company_folder(companyName):
+    # Define the path for the directory
+    dir_path = f"AgentMADS/scrapers/data/scraped/{companyName}"
+
+    # Check if the directory exists, and create it if it doesn't
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+        print(f"Directory '{dir_path}' created.")
+    else:
+        print(f"Directory '{dir_path}' already exists.")
 

@@ -1,0 +1,4 @@
+    __pycache__/
+    scrapers/data/scraped/
+    .DS_Store
+    
