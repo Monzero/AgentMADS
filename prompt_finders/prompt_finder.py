@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import subprocess
 import json
-import ollama
+import ollama 
 import re
 from datetime import datetime
 model = 'llamm3'
@@ -11,6 +11,19 @@ model = 'llamm3'
 ############################################################################################
 #############           Defining custom functions                     #####################
 ############################################################################################
+
+
+def upload_all_source(path, upload_everything_afresh = False):
+    if not upload_everything_afresh and os.path.exists(path + '/96_results/all_source_id.csv'):
+        print('Loading the source ids from the file')
+        df_ids = pd.read_csv(path + '/96_results/all_source_id.csv')
+        ids    = dict(zip(df_ids['source'], df_ids['source_id']))   
+    else:
+        ids        = create_source_id(path)
+        df_ids     = pd.DataFrame(ids.items(), columns=['source', 'source_id'])
+        df_ids.to_csv(path + '96_results/all_source_id.csv')
+        print('Source ids are saved in the file')
+    return(ids)
 
 def create_source_id_url(path):
     """
@@ -100,8 +113,8 @@ def hit_chatpdf_api(path, load_all_fresh = False):
     """
     prompts        = pd.read_csv(path + '/97_static/prompts.csv')
     
-    if not load_all_fresh and os.path.exists(path + '/97_static/prompts_result.csv'):
-        prompts_result = pd.read_csv(path + '/97_static/prompts_result.csv')
+    if not load_all_fresh and os.path.exists(path + '/96_results/prompts_result.csv'):
+        prompts_result = pd.read_csv(path + '/96_results/prompts_result.csv')
         que_covered    = prompts_result['sr_no'].unique()
         que_list       = prompts['sr_no'].unique()
         remaining_que  = [x for x in que_list if x not in que_covered]
@@ -144,20 +157,21 @@ def hit_chatpdf_api(path, load_all_fresh = False):
         new_row = pd.DataFrame({'sr_no':[sr_no],'cat':[cat],'que_no':[que_no],'source': [row['source']], 'message': [message], 'result': [result]})
         results = pd.concat([results, new_row], ignore_index=True) 
     
-    if not load_all_fresh and os.path.exists(path + '/97_static/prompts_result.csv'):
+    if not load_all_fresh and os.path.exists(path + '/96_results/prompts_result.csv'):
         results = pd.concat([prompts_result, results], ignore_index=True)
     
-    results.to_csv(path + '/97_static/prompts_result.csv',  index=False)    
+    results.to_csv(path + '/96_results/prompts_result.csv',  index=False)    
 
 def score_q17(path):
     """This function scores question 17 based on predefined criteria."""
     
     # Load the dataset
-    file_path    = os.path.join(path, '97_static', 'prompts_result.csv')
+    question_no  = 17
+    file_path    = os.path.join(path, '96_results', 'prompts_result.csv')
     pr           = pd.read_csv(file_path)
     
     # Extract the relevant content
-    pr_filtered  = pr[pr['que_no'] == 17]['result']
+    pr_filtered  = pr[pr['que_no'] == question_no]['result']
     content      = '\n'.join(pr_filtered.dropna().tolist())  # Handle NaN values safely
 
 
@@ -184,8 +198,8 @@ def score_q17(path):
         f"And The content on which you have to score is: {content}. "
 
     )
-    if os.path.exists(path + '/97_static/que_wise_scores.csv'):
-        output_df = pd.read_csv(path + '/97_static/que_wise_scores.csv')
+    if os.path.exists(path + '/96_results/que_wise_scores.csv'):
+        output_df = pd.read_csv(path + '/96_results/que_wise_scores.csv')
     else:
         output_df = pd.DataFrame(columns=['run_time_stamp','category','que_no', 'score', 'justification'])
     
@@ -228,10 +242,101 @@ def score_q17(path):
     run_time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_row = pd.DataFrame({'run_time_stamp':[run_time_stamp],'category':['Corporate Governance'],'que_no':[17],'score': [score], 'justification': [justification]})
     output_df = pd.concat([output_df, new_row], ignore_index=True)
-    output_df.to_csv(path + '/97_static/que_wise_scores.csv',  index=False)
+    output_df.to_csv(path + '/96_results/que_wise_scores.csv',  index=False)
 
+def score_q1(path):
+    """This function scores question 1 based on predefined criteria.
+    
+    Args:
+        path (str): Path to the folder for the company.
+        
+    Question is : Does the board have directors with permanent boaerd seats?
+    """
+    
+    # Load the dataset
+    question_no = 1
+    file_path    = os.path.join(path, '96_results', 'prompts_result.csv')
+    pr           = pd.read_csv(file_path)
+    
+    # Extract the relevant content
+    pr_filtered      = pr[pr['que_no'] == question_no]['result']
+    content          = '\n'.join(pr_filtered.dropna().tolist())  # Handle NaN values safely
+    
+    if pr_filtered.empty:
+        print(f"No content available for question {question_no}.")
+        return
 
+    print(f"Content for question {question_no}: {content}")
+    
+    if not content.strip():
+        print(f"No content available for question {question_no}.")
+        return
 
+    # Define the scoring criteria
+    scoring_criteria = (
+        "Score 0 if you get the impression that one or more than one directors are marked as permanent board members"
+        "Score 1 if you get the impression that one or more than one directors are marked as permanent board members, but those are representatives of lenders (for companies in financial distress)"
+        "Score 2 if you get the impression that All directors are marked as non-permanent board members"
+    )
+    
+    # Construct the prompt
+    prompt = (
+        f"You are a corporate governance scoring expert. "
+        f"I will specify the criteria for scoring the content. "
+        f"You have to score the content based on the criteria mentioned below. "
+        f"Answer in JSON format with keys as 'score' (integer) and 'justification' (string)."
+        f"Other than JSON format, any other format will not be accepted."
+        f"Fetch as much source information as possible to score the content. "
+        f"The scoring criteria is as follows: {scoring_criteria} "
+        f"Do not assume any details. If you dont find any information then it is not available. "
+        f"And The content on which you have to score is: {content}. "
+
+    )
+    if os.path.exists(path + '/96_results/que_wise_scores.csv'):
+        output_df = pd.read_csv(path + '/96_results/que_wise_scores.csv')
+    else:
+        output_df = pd.DataFrame(columns=['run_time_stamp','category','que_no', 'score', 'justification'])
+    
+    # Call the local Ollama model with the prompt
+    try:
+        
+        result = ollama.chat(
+            model="llama3",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                },
+            ],
+        )
+        print(result["message"]["content"])
+
+        response_text = result["message"]["content"].strip()
+
+        match    = re.search(r'\{.*\}', response_text, re.DOTALL)
+        if match:
+            response = json.loads(match.group())
+        else:
+            raise ValueError("Failed to extract JSON response from the output.")
+        
+        # Extract score and justification
+        score = response.get('score', 'N/A')
+        justification = response.get('justification', 'No justification provided.')
+
+        print(f"Score for question {question_no}: {score}")
+        print(f"Justification: {justification}")
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error running Ollama model: {e}")
+    except json.JSONDecodeError:
+        print("Failed to parse response as JSON. Raw output:")
+        print(result.stdout)
+        
+    # Append the new row to the results DataFrame
+    run_time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    new_row = pd.DataFrame({'run_time_stamp':[run_time_stamp],'category':['Corporate Governance'],'que_no':[17],'score': [score], 'justification': [justification]})
+    output_df = pd.concat([output_df, new_row], ignore_index=True)
+    output_df.to_csv(path + '/96_results/que_wise_scores.csv',  index=False)
 
 
 ############################################################################################
@@ -240,19 +345,20 @@ def score_q17(path):
 
 path       = '/Users/monilshah/Documents/02_NWU/01_capstone/02_Code/'
 
-if os.path.exists(path + '/97_static/all_source_id.csv'):
-    print('Loading the source ids from the file')
-    df_ids = pd.read_csv(path + '/96_results/all_source_id.csv')
-    ids    = dict(zip(df_ids['source'], df_ids['source_id']))   
-else:
-    ids        = create_source_id(path)
-    df_ids     = pd.DataFrame(ids.items(), columns=['source', 'source_id'])
-    df_ids.to_csv(path + '96_results/all_source_id.csv')
-    print('Source ids are saved in the file')
-
+#############                   Get the source ids                      #####################
+ids       = upload_all_source(path, upload_everything_afresh=False)
 
 #############          Get answers for the questions                  #####################
 hit_chatpdf_api(path, load_all_fresh=True)
 
 #############                   Score question 17                      #####################
 score_q17(path)
+
+#############                   Score question 1                      #####################
+score_q1(path)
+
+
+
+
+
+
