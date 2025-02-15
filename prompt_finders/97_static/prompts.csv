@@ -1,0 +1,8 @@
+﻿sr_no,cat,que_no,source,message
+1,3,0,cg_report,"List all the people on the board along with their date of appintment, date of reappointment, gender and their category. Give answer in JSON format."
+2,2,17,combined_policies,"Does the company have policies regarding  the health, safety, and welfare of employees? Also give policy names. "
+3,2,17,combined_policies,"How do they focus on prevention of occupation-related injuries, accidents and illnesses ?  Which policies specifies that?"
+4,2,17,combined_policies,"Does the company provide provide health, safety and sexual harrasment trainings?   Which policies specifies that?"
+5,2,17,combined_policies,"Does policies related to health, safety and welfare cover company's suppliers and vendors? Which policies state that?"
+6,2,17,combined_policies,Does the company state the information about number of accidents at workplace or labour fatalities?
+7,2,17,annual_report,Does the company state the information about number of accidents at workplace or labour fatalities?
