@@ -1,0 +1,85 @@
+sr_no,cat,que_no,source,message,result
+1,3,0,cg_report,"List all the people on the board along with their date of appintment, date of reappointment, gender and their category. Give answer in JSON format.","Here is the information in JSON format:
+
+```json
+[
+    {
+        ""name"": ""Hari Mohan Bangur"",
+        ""date_of_appointment"": ""31-07-1992"",
+        ""date_of_reappointment"": null,
+        ""gender"": ""Male"",
+        ""category"": ""Executive/Chairperson""
+    },
+    {
+        ""name"": ""Prashant Bangur"",
+        ""date_of_appointment"": ""23-08-2012"",
+        ""date_of_reappointment"": null,
+        ""gender"": ""Male"",
+        ""category"": ""Executive""
+    },
+    {
+        ""name"": ""Neeraj Akhoury"",
+        ""date_of_appointment"": ""14-10-2022"",
+        ""date_of_reappointment"": null,
+        ""gender"": ""Male"",
+        ""category"": ""Executive/MD""
+    },
+    {
+        ""name"": ""Uma Ghurka"",
+        ""date_of_appointment"": ""11-11-2019"",
+        ""date_of_reappointment"": ""11-11-2024"",
+        ""gender"": ""Female"",
+        ""category"": ""Non-Executive - Independent Director""
+    },
+    {
+        ""name"": ""Sanjiv Krishnaji Shelgikar"",
+        ""date_of_appointment"": ""05-08-2015"",
+        ""date_of_reappointment"": ""05-08-2020"",
+        ""gender"": ""Male"",
+        ""category"": ""Non-Executive - Independent Director""
+    },
+    {
+        ""name"": ""Zubair Ahmed"",
+        ""date_of_appointment"": ""21-05-2022"",
+        ""date_of_reappointment"": ""21-05-2022"",
+        ""gender"": ""Male"",
+        ""category"": ""Non-Executive - Independent Director""
+    },
+    {
+        ""name"": ""Sushil Kumar Roongta"",
+        ""date_of_appointment"": ""14-05-2024"",
+        ""date_of_reappointment"": ""14-05-2024"",
+        ""gender"": ""Male"",
+        ""category"": ""Non-Executive - Independent Director""
+    }
+]
+```"
+2,2,17,combined_policies,"Does the company have policies regarding  the health, safety, and welfare of employees? Also give policy names. ","Yes, the company has policies regarding the health, safety, and welfare of employees. The relevant policies include:
+
+1. **Health & Safety Policy** - This policy aims to ensure good health and a safe environment for all stakeholders by promoting awareness of sound health and safe working practices, continually improving health and safety performance, and complying with applicable legal requirements.
+
+2. **Occupational Health and Safety Management System** - This includes guidelines for enhancing health and safety standards, conducting internal assessments and audits, and providing necessary medical facilities and training to employees.
+
+These policies emphasize the company's commitment to the health and safety of its employees and workers."
+3,2,17,combined_policies,"How do they focus on prevention of occupation-related injuries, accidents and illnesses ?  Which policies specifies that?","Shree Cement Limited focuses on the prevention of occupation-related injuries, accidents, and illnesses through its Occupational Health and Safety Policy. This policy outlines several key measures, including:
+
+1. **Compliance with Legal Requirements**: Ensuring adherence to all applicable legal and regulatory requirements related to health and safety.
+2. **Risk Control Measures**: Identifying and minimizing injury and health hazards through effective risk control measures.
+3. **Training and Awareness**: Raising awareness among employees regarding occupational health and safety through training and skill development on various safety protocols.
+4. **Emergency Preparedness**: Enhancing health and safety standards to prevent and mitigate potential emergency situations.
+5. **Regular Audits and Assessments**: Conducting internal assessments and external audits based on ISO 45001 to safeguard the health and well-being of employees and workers.
+6. **Consultation with Workforce**: Involving the workforce in the development, implementation, and evaluation of the occupational health and safety management system.
+
+These measures are aimed at creating a safe and healthy workplace for all employees, workers, contractors, and visitors."
+4,2,17,combined_policies,"Does the company provide provide health, safety and sexual harrasment trainings?   Which policies specifies that?","Yes, the company provides health and safety training as well as training on sexual harassment. 
+
+1. **Health and Safety Training**: This is specified in the **Occupational Health and Safety Policy**, which includes raising awareness among employees regarding occupational health and safety through trainings on aspects such as first aid, fire prevention, and accident prevention.
+
+2. **Sexual Harassment Training**: The commitment to creating awareness on the principles of non-discrimination and anti-harassment is mentioned in the **Policy on Non-Discrimination and Anti-Harassment**, which includes training for employees on these principles.
+
+Both policies emphasize the importance of training to ensure a safe and respectful workplace."
+5,2,17,combined_policies,"Does policies related to health, safety and welfare cover company's suppliers and vendors? Which policies state that?","Yes, the policies related to health, safety, and welfare do cover the company's suppliers and vendors. The relevant policies state that suppliers are expected to adhere to safety and health standards at their premises. Specifically, Page 55 mentions that suppliers must install appropriate controls, safe work procedures, and necessary protective measures to mitigate health and safety risks in the workplace.
+
+Additionally, Page 38 outlines that contractors and subcontractors are required to ensure that all necessary safety measures are taken and safe working conditions are provided to their employees and workers. This indicates a comprehensive approach to health and safety that includes not only the company's employees but also its suppliers and vendors."
+6,2,17,combined_policies,Does the company state the information about number of accidents at workplace or labour fatalities?,"I cannot find relevant information regarding the number of accidents at the workplace or labor fatalities in the provided pages. However, it is common for companies to track and report such statistics in their annual reports or sustainability reports. For specific data, you may want to check those documents or the company's official website."
+7,2,17,annual_report,Does the company state the information about number of accidents at workplace or labour fatalities?,"Yes, the company provides information about safety-related incidents, including the number of accidents at the workplace and labor fatalities. However, the specific details are covered in the Human Capital section of the Integrated Annual Report FY 2023-24, page no. 75. For exact figures or further details, you would need to refer to that section of the report."
