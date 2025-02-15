@@ -274,9 +274,9 @@ def score_q1(path):
 
     # Define the scoring criteria
     scoring_criteria = (
-        "Score 0 if you get the impression that one or more than one directors are marked as permanent board members"
-        "Score 1 if you get the impression that one or more than one directors are marked as permanent board members, but those are representatives of lenders (for companies in financial distress)"
-        "Score 2 if you get the impression that All directors are marked as non-permanent board members"
+        "Score 0 if one or more than one directors are marked as permanent board members"
+        "Score 1 if the directors which are marked as permanent board members, but those are representatives of lenders. Remember that this case is applicable for financially distressed companies. So unless it is mentioned explicitly that lenders have sent those board members as representative, do not assume so."
+        "Score 2 if All directors are marked as non-permanent board members"
     )
     
     # Construct the prompt
@@ -334,7 +334,7 @@ def score_q1(path):
         
     # Append the new row to the results DataFrame
     run_time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    new_row = pd.DataFrame({'run_time_stamp':[run_time_stamp],'category':['Corporate Governance'],'que_no':[17],'score': [score], 'justification': [justification]})
+    new_row = pd.DataFrame({'run_time_stamp':[run_time_stamp],'category':['Corporate Governance'],'que_no':[question_no],'score': [score], 'justification': [justification]})
     output_df = pd.concat([output_df, new_row], ignore_index=True)
     output_df.to_csv(path + '/96_results/que_wise_scores.csv',  index=False)
 
