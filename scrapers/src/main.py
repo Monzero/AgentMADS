@@ -9,6 +9,8 @@ if __name__ == "__main__":
     try:
         # Specify the company name
         company_name = "Shree Cement"
+        # ["Shree Cement" , "PC Jeweller" , "Vakrangee" , "Tata Motors" ,
+        #  "Jubilant Foodworks" , "Paytm" , "Sanghvi Movers" , "MGL" , "Religare"]
         
         # Get company details
         company_details = get_company_details(company_name)

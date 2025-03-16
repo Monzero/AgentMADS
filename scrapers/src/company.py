@@ -40,6 +40,7 @@ def get_generated_urls(companyDetails):
     
     # Iterate over each link template
     for _, link_row in links_df.iterrows():
+        section = link_row["Section"]
         header = link_row["Header"]
         template_url = link_row["Links"]
         
@@ -53,7 +54,7 @@ def get_generated_urls(companyDetails):
                         for k, v in companyDetails.items()
                     }
                 )
-                generated_urls.append({"Header": header, "Company Name": companyDetails["Company Name"], "URL": formatted_url})
+                generated_urls.append({"Section": section, "Header": header, "Company Name": companyDetails["Company Name"], "URL": formatted_url})
             except KeyError as e:
                 print(f"Missing placeholder in template for Header: {header}, Error: {e}")
         else:
@@ -64,14 +65,14 @@ def save_generated_urls(companyName):
     # check for company folder
     create_company_folder(companyName)
 
-    output_file = f"AgentMADS/scrapers/data/scraped/{companyName}/generated_urls.xlsx"
+    output_file = f"AgentMADS/scrapers/data/scraped/{companyName}/bse_generated_urls.xlsx"
     """
     Save all generated URLs to a new Excel file.
     """
     # Convert the list of generated URLs to a DataFrame
     output_df = pd.DataFrame(generated_urls)
     output_df.to_excel(output_file, index=False)
-    print("URLs generated and saved to 'generated_urls.xlsx'")
+    print("URLs generated and saved to 'bse_generated_urls.xlsx'")
 
 
 def create_company_folder(companyName):
